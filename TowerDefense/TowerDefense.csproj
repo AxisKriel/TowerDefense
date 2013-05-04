@@ -46,9 +46,11 @@
     <Compile Include="World\Camera.cs" />
     <Compile Include="World\Map.cs" />
     <Compile Include="World\Mob.cs" />
-    <Compile Include="World\Tile.cs" />
+    <Compile Include="World\Tile\GoalTile.cs" />
+    <Compile Include="World\Tile\SpawnTile.cs" />
+    <Compile Include="World\Tile\Tile.cs" />
     <Compile Include="World\Tower.cs" />
-    <Compile Include="World\TowerTile.cs" />
+    <Compile Include="World\Tile\TowerTile.cs" />
     <Compile Include="World\World.cs" />
   </ItemGroup>
   <ItemGroup>

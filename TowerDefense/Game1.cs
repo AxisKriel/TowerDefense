@@ -60,6 +60,7 @@ namespace TowerDefense
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             Tile.LoadSheet(Content);
+            Mob.LoadSpriteSheet(Content);
             // TODO: use this.Content to load your game content here
         }
 

@@ -31,5 +31,22 @@ namespace TowerDefense.World
             Position += move;
             Position = new Vector2(MathHelper.Clamp(Position.X, 0, WorldSize.X), MathHelper.Clamp(Position.Y, 0, WorldSize.Y));
         }
+
+        public bool OnScreen(Vector2 pos)
+        {
+            if((pos.X + Tile.Width <= Position.X || pos.X > Position.X + Size.X) ||
+                (pos.Y + Tile.Height <= Position.Y || pos.Y > Position.Y + Size.Y))
+            {
+                return false;
+            }
+
+            return true;
+
+        }
+
+        public Vector2 ScreenCoords(Vector2 pos)
+        {
+            return pos - Position;
+        }
     }
 }
