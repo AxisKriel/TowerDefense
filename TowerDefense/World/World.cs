@@ -5,6 +5,7 @@ using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using OpenTK.Input;
+using TowerDefense.Pathfinding;
 
 namespace TowerDefense.World
 {
@@ -15,7 +16,7 @@ namespace TowerDefense.World
 
         public World()
         {
-            map = new Map(400, 200);
+            map = new Map(400, 5);
 
             map.map[3, 0].Type = 1;
             map.map[4, 0].Type = 1;
@@ -24,6 +25,14 @@ namespace TowerDefense.World
 
             map.map[5,0] = new TowerTile(new Tower{Range = 10, Rate = 2000});
             map.map[5, 0].Type = 2;
+
+
+            map.map[1, 0].Walkable = false;
+            map.map[1, 1].Walkable = false;
+            map.map[1, 2].Walkable = false;
+            map.map[1, 3].Walkable = false;
+            map.map[1, 4].Walkable = false;
+
 
             camera = new Camera(400*Tile.Width, 200*Tile.Height);
         }
@@ -61,6 +70,8 @@ namespace TowerDefense.World
             batch.End();
         }
 
+        private KeyboardState old = Keyboard.GetState();
+
         public void Update(GameTime time)
         {
             KeyboardState state = Keyboard.GetState();
@@ -73,7 +84,31 @@ namespace TowerDefense.World
             if (state.IsKeyDown(Key.S))
                 camera.Move(new Vector2(0, 2));
 
+            //Pathfinding debug test
+            if (state.IsKeyUp(Key.Enter) && old.IsKeyDown(Key.Enter))
+            {
+                DateTime start = DateTime.Now;
+                Node n = AStar.FindPath(map, new Point(0, 0), new Point(2, 0));
+                DateTime end = DateTime.Now;
 
+                Console.WriteLine("Time to path: {0}", (end-start).TotalMilliseconds);
+                if (n == null)
+                {
+                    Console.WriteLine("Goal is unreachable.");
+                }
+                else
+                {
+                    while (n.Parent != null)
+                    {
+                        Console.Write("{0}->", n.location.ToString());
+                        n = n.Parent;
+                    }
+
+                    Console.WriteLine("{0}", n.location.ToString());
+                }
+            }
+
+            old = state;
             map.Update(time);
         }
     }
